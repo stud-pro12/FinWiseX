@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finance-deployment
+  namespace: finwisex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: finance
+  template:
+    metadata:
+      labels:
+        app: finance
+    spec:
+      containers:
+      - name: finance
+        image: finwisex-finance:latest
+        ports:
+        - containerPort: 3002
+        env:
+        - name: PORT
+          value: "3002"
+        - name: MONGO_URI
+          value: "mongodb://mongo-service:27017/finwisex"
+        - name: JWT_SECRET
+          value: "your_super_secret_key_123"

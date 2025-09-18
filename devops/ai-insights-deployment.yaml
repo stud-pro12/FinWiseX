@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-insights-deployment
+  namespace: finwisex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-insights
+  template:
+    metadata:
+      labels:
+        app: ai-insights
+    spec:
+      containers:
+      - name: ai-insights
+        image: finwisex-ai-insights:latest
+        ports:
+        - containerPort: 3004
+        env:
+        - name: PORT
+          value: "3004"
+        - name: MONGO_URI
+          value: "mongodb://mongo-service:27017/finwisex"
+        - name: JWT_SECRET
+          value: "your_super_secret_key_123"

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: investment-deployment
+  namespace: finwisex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: investment
+  template:
+    metadata:
+      labels:
+        app: investment
+    spec:
+      containers:
+      - name: investment
+        image: finwisex-investment:latest
+        ports:
+        - containerPort: 3003
+        env:
+        - name: PORT
+          value: "3003"
+        - name: JWT_SECRET
+          value: "your_super_secret_key_123"
+        - name: ALPHA_VANTAGE_API_KEY
+          value: "your_alpha_vantage_key_here"
+        - name: COINGECKO_API
+          value: "https://api.coingecko.com/api/v3"
